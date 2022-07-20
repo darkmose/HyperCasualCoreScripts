@@ -14,7 +14,7 @@ namespace Core.UI
 
 
         [SerializeField] private GameObject _playerController;
-        [SerializeField] private Text _currentLevel;
+        [SerializeField] private TMPro.TextMeshProUGUI _currentLevel;
 
 
         public void SetCurrentLevel(int level) 
