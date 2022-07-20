@@ -12,7 +12,7 @@ namespace Core.UI
         public override ViewType View => ViewType.Window;
 
         [SerializeField] private Button _nextButton;
-        [SerializeField] private Text _winText;
+        [SerializeField] private TMPro.TextMeshProUGUI _winText;
 
         private System.Action _nextButtonCallback;
 
@@ -24,7 +24,7 @@ namespace Core.UI
         public void SetWinLevel(int level) 
         {
             string winText = $"LEVEL {level}\n";
-            winText += "COMPLETED";
+            winText += "COMPLETE";
             _winText.text = winText;
         }
 
