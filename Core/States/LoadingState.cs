@@ -27,14 +27,14 @@ namespace Core.States
             _resourceHolder = resourceHolder;
 
             _gameConfiguration = ServiceLocator.Resolve<GameConfiguration>();
-
+            PreparePlayer();
+            PrepareLevelController();
+            PrepareObjectPooler();
         }
 
         public override void Enter()
         {
-            PreparePlayer();
-            PrepareLevelController();
-            PrepareObjectPooler();
+
             stateMachine.SwitchToState(ApplicationStates.Gameplay);
         }
 
