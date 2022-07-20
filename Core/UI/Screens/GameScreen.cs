@@ -13,7 +13,6 @@ namespace Core.UI
         public GameObject PlayerController => _playerController;
 
 
-        [SerializeField] private Button _startButton;
         [SerializeField] private GameObject _playerController;
         [SerializeField] private Text _currentLevel;
 

@@ -3,24 +3,60 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Configuration;
+
 namespace Core.Gameplay
 {
     public class CameraFollow : MonoBehaviour
     {
-        [SerializeField] private float _shakingTime = .3f;
-        [SerializeField] private float _shakingHeight;
-
+        private const float RotateDuration = 1f;
+        private const float MoveDuration = 1f;
+        private const float CameraFollowSpeed = 7f;
         private Transform _target;
-        private Vector3 _offset;
+        private Vector3 _posOffset;
+        private float _xPosOffset;
         private bool _canMove;
-        private Tweener _shakingTweener;
-        private float _shakeX;
-        private float _shakeY;
-        private Vector3 _shakeOffset = Vector3.zero;
+        private float _moveBounds;
+        private float _startXPosition;
 
-        public void ChangeOffset(Vector3 offset) 
+        public void InitStartPosition()
         {
-            _offset = offset;
+            var config = Core.DISimple.ServiceLocator.Resolve<GameConfiguration>();
+            _moveBounds = config.CameraMovementBounds;
+            _startXPosition = transform.position.x;
+        }
+
+        public void ChangeOffset(Transform offsetPoint) 
+        {
+            _posOffset = offsetPoint.localPosition;
+            transform.rotation = offsetPoint.localRotation;
+            transform.position = offsetPoint.position;
+        }
+
+        /// <summary>
+        /// Convert -1 to 1 to local position offset
+        /// </summary>
+        /// <param name="normalizedX">Normalized param from -1 to 1</param>
+        public void ChangePosOffsetX(float normalizedX) 
+        {
+            var endPoint = _startXPosition + _moveBounds * normalizedX;
+            _xPosOffset = Mathf.MoveTowards(_xPosOffset, endPoint, Time.deltaTime * CameraFollowSpeed);
+        }
+
+        public void ChangeOffsetSmoothly(Transform offsetPoint) 
+        {
+            SetPosSmoothly(offsetPoint.localPosition);
+            SetRotateSmoothly(offsetPoint.localRotation);
+        }
+
+        private void SetPosSmoothly(Vector3 newPos)
+        {
+            DOTween.To(() => _posOffset, newOffset => _posOffset = newOffset, newPos, MoveDuration);
+        }
+
+        private void SetRotateSmoothly(Quaternion newRotate) 
+        {
+            transform.DORotateQuaternion(newRotate, RotateDuration);
         }
 
         public void SetTarget(Transform target) 
@@ -36,31 +72,14 @@ namespace Core.Gameplay
             }
         }
 
-        public void ShakingCameraOn() 
-        {
-            _shakeX = -_shakingHeight;
-            _shakingTweener = DOTween.To(() => _shakeX, x => _shakeX = x, _shakingHeight, _shakingTime)
-                .OnUpdate(() => 
-                { 
-                    _shakeY = _shakeX * _shakeX;
-                    _shakeOffset.x = _shakeX;
-                    _shakeOffset.y = _shakeY;
-                })
-                .SetEase(Ease.InOutSine)
-                .SetLoops(-1, LoopType.Yoyo);
-        }
-
-        public void ShakingCameraOff() 
-        {
-            _shakingTweener.Kill();
-            _shakeOffset = Vector3.zero;
-        }
-
         void LateUpdate()
         {
             if (_canMove)
             {
-                transform.position = _target.position + _offset + _shakeOffset;
+                var target = _target.position;
+                target.x = _xPosOffset;
+                target.y = 0f;
+                transform.position = target + _posOffset;
             }
         }
     }
