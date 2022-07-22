@@ -13,15 +13,34 @@ namespace Core.UI
 
         [SerializeField] private Button _nextButton;
         [SerializeField] private TMPro.TextMeshProUGUI _winText;
+        [SerializeField] private TMPro.TextMeshProUGUI _currentMoney;
+        [SerializeField] private TMPro.TextMeshProUGUI _bonusMoney;
+
+        public Button NextLevelButton => _nextButton;
 
         private System.Action _nextButtonCallback;
+
+        public void SetInteractableButton(Button button, bool isInteractable)
+        {
+            button.interactable = isInteractable;
+        }
 
         public void InitCallback(System.Action nextButtonCallback)
         {
             _nextButtonCallback = nextButtonCallback;
         }
 
-        public void SetWinLevel(int level) 
+        public void SetCurrentMoney(int value)
+        {
+            _currentMoney.text = value.ToString();
+        }
+
+        public void SetBonusMoney(int value)
+        {
+            _bonusMoney.text = value.ToString();
+        }
+
+        public void SetWinLevel(int level)
         {
             string winText = $"LEVEL {level}\n";
             winText += "COMPLETE";
@@ -40,4 +59,5 @@ namespace Core.UI
             _nextButtonCallback?.Invoke();
         }
     }
+
 }
