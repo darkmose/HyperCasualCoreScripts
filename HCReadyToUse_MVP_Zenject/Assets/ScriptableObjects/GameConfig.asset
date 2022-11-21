@@ -12,3 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8ae38b51aae6bd4b8b0f7e207d94f1f, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
+  PlayerConfiguration:
+    MoveSpeed: 30
+    ControlSensitivity: 30
+    MoveBoundOffset: 5

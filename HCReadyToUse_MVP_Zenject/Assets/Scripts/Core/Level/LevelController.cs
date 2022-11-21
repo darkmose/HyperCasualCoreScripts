@@ -23,12 +23,13 @@ namespace Core.Level
 
         public LevelData LevelData => _levelData;
 
-        public LevelController(ResourceHolder resourceHolder, ILevelProgression levelProgression, PlayerData playerdata, CameraFollow cameraFollow)
+        public LevelController(ResourceHolder resourceHolder, ILevelProgression levelProgression, PlayerData playerdata, ICamerasManager camerasManager)
         {
             _resourceHolder = resourceHolder;
             _levelProgression = levelProgression;
             _playerdata = playerdata;
-            _cameraFollow = cameraFollow;
+            var mainCamera = camerasManager.GetCamera(CameraLogic.CameraType.Main);
+            mainCamera.TryGetComponent(out _cameraFollow);
         }
 
         private void ClearLevel() 
@@ -53,6 +54,7 @@ namespace Core.Level
         private void PrepareCamera()
         {
             _cameraFollow.SetTarget(_playerdata.transform);
+            _cameraFollow.CanMove = true;
         }
 
         public void PrepareNextLevel()
