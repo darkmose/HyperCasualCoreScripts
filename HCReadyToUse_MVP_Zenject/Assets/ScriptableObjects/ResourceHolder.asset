@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c1f569442e41fa479be5aae9b7c9916, type: 3}
   m_Name: ResourceHolder
   m_EditorClassIdentifier: 
-  _levels: []
+  _levels:
+  - {fileID: 3135947922510479790, guid: 07038a3c0c039384689c8a5a451156f1, type: 3}
   _prefabs: []
   _toastMessagePrefab: {fileID: 8207901417927541770, guid: 07f37a28aa65c4446a982b33be0a1465, type: 3}
   _toastImageMoneyPrefab: {fileID: 8206226931766520646, guid: 44a14b67522c40d418c110378eb222e8, type: 3}

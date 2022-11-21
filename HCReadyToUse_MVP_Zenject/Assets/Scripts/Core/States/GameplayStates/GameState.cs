@@ -10,12 +10,18 @@ namespace Core.States
     {
         public override GameplayStates State => GameplayStates.Game;
 
-        private const string GameCameraPointName = "Game";
-        private IGameScreenPresenter _gameScreen;
+        private const string GAME_CAMERA_POINT_NAME = "Game";
 
-        public GameState(ILevelController levelController, IGameScreenPresenter gameScreenPresenter)
+        private IGameScreenPresenter _gameScreen;
+        private CameraFollow _cameraFollow;
+        private Transform _gameCameraPoint;
+
+        public GameState(IGameScreenPresenter gameScreenPresenter, ICamerasManager camerasManager, CameraPointsHolder cameraPointsHolder)
         {
             _gameScreen = gameScreenPresenter;
+            _gameCameraPoint = cameraPointsHolder.GetCameraTransform(GAME_CAMERA_POINT_NAME);
+            var mainCamera = camerasManager.GetCamera(CameraLogic.CameraType.Main);
+            mainCamera.TryGetComponent(out _cameraFollow);
         }
 
         public override void Enter()
@@ -23,7 +29,7 @@ namespace Core.States
             _gameScreen.Init();
             _gameScreen.Show();
 
-
+            _cameraFollow.ChangeOffset(_gameCameraPoint);
         }
 
         public override void Exit()

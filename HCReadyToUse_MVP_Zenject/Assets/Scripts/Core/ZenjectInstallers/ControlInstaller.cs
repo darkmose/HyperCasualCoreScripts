@@ -1,12 +1,13 @@
+using Core.ControlLogic;
 using UnityEngine;
 using Zenject;
 
 public class ControlInstaller : MonoInstaller
 {
-    [SerializeField] private Joystick _joystick;
+    [SerializeField] private ControlPanelView _gameScreenControlPanel;
 
     public override void InstallBindings()
     {
-        Container.Bind<Joystick>().FromInstance(_joystick).AsSingle();
+        Container.Bind<IControlPanel>().WithId("GameControlPanel").To<ControlPanelView>().FromInstance(_gameScreenControlPanel).AsSingle();
     }
 }

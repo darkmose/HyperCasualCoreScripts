@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using Core.UI;
+using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Core.MVP
 {
@@ -10,6 +12,13 @@ namespace Core.MVP
         [SerializeField] private LevelProgressBarView _levelProgressBarView;
 
         private System.Action _startButtonCallback;
+        private DiContainer _diContainer;
+
+        [Inject]
+        private void Constructor(DiContainer diContainer)
+        {
+            _diContainer = diContainer;
+        }
 
         public void InitStartButtonCallback(System.Action action)
         {
@@ -23,6 +32,8 @@ namespace Core.MVP
 
         protected override void OnAwake()
         {
+            var uiManager = _diContainer.Resolve<UIManager>();
+            uiManager.RegisterView(this);
             _startButton.onClick.AddListener(() => _startButtonCallback?.Invoke());
             base.OnAwake();
         }

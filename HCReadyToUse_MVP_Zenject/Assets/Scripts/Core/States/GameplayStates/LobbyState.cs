@@ -14,21 +14,31 @@ namespace Core.States
     {
         public override GameplayStates State => GameplayStates.Lobby;
 
-        private const string LobbyCameraPointName = "Lobby";
-        private LevelController _levelController;
+        private const string LOBBY_CAMERA_POINT_NAME = "Lobby";
 
-        public LobbyState(LevelController levelController)
+        private ILobbyScreenPresenter _lobbyScreenPresenter;
+        private CameraFollow _cameraFollow;
+        private Transform _lobbyCameraPoint;
+
+        public LobbyState(ILobbyScreenPresenter lobbyScreenPresenter, CameraPointsHolder cameraPointsHolder, ICamerasManager camerasManager)
         {
-            _levelController = levelController;
+            _lobbyScreenPresenter = lobbyScreenPresenter;
+            _lobbyCameraPoint = cameraPointsHolder.GetCameraTransform(LOBBY_CAMERA_POINT_NAME);
+            var mainCamera = camerasManager.GetCamera(CameraLogic.CameraType.Main);
+            mainCamera.TryGetComponent(out _cameraFollow);
         }
 
         public override void Enter()
         {
-            stateMachine.SwitchToState(GameplayStates.Game);
+            _lobbyScreenPresenter.Init();
+            _lobbyScreenPresenter.Show();
+
+            _cameraFollow.ChangeOffset(_lobbyCameraPoint);
         }
 
         public override void Exit()
         {
+            _lobbyScreenPresenter.Hide();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Core.GameLogic
 {
     public class PlayerData : MonoBehaviour
     {
-
+        public PlayerMovementSystem PlayerMovementSystem;
     }
 
 }

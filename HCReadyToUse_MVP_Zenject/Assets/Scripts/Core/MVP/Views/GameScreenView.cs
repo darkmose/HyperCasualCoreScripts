@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Zenject;
+using Core.UI;
 
 namespace Core.MVP
 {
@@ -10,6 +12,14 @@ namespace Core.MVP
         public override ScreenType Type => ScreenType.Game;
         [SerializeField] private TextMeshProUGUI _currentMoneyBalance;
         [SerializeField] private TextMeshProUGUI _currentLevel;
+
+        private DiContainer _diContainer;
+
+        [Inject]
+        private void Constructor(DiContainer diContainer)
+        {
+            _diContainer = diContainer;
+        }
 
         public void SetCurrentLevel(int level)
         {
@@ -28,6 +38,14 @@ namespace Core.MVP
                 _currentMoneyBalance.text = money.ToString();
             }
 
+        }
+
+        protected override void OnAwake()
+        {
+            var uiManager = _diContainer.Resolve<UIManager>();
+            uiManager.RegisterView(this);
+
+            base.OnAwake();            
         }
     }
 }

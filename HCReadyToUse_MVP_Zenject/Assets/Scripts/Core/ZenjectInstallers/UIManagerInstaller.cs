@@ -13,6 +13,11 @@ public class UIManagerInstaller : MonoInstaller
         Container.Bind<GameScreenUseCases>().AsSingle();
         Container.Bind<GameScreenProxyView>().AsSingle();
         Container.Bind<IGameScreenPresenter>().To<GameScreenPresenter>().AsSingle();
+        
+        Container.Bind<LobbyScreenModel>().AsSingle();
+        Container.Bind<LobbyScreenUseCases>().AsSingle();
+        Container.Bind<LobbyScreenProxyView>().AsSingle();
+        Container.Bind<ILobbyScreenPresenter>().To<LobbyScreenPresenter>().AsSingle();        
 
         Container.Bind<UIManager>().FromInstance(_uIManager).AsSingle();
     }
