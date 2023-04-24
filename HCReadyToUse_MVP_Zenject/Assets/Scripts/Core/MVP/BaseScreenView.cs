@@ -4,7 +4,10 @@
     {
         Loading,
         Lobby,
-        Game
+        Game,
+        Collection,
+        CarSelect,
+        Tutorial
     }
 
     public abstract class BaseScreenView : BaseView

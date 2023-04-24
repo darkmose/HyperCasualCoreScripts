@@ -5,7 +5,7 @@ using Zenject;
 
 public class UIManagerInstaller : MonoInstaller
 {
-    [SerializeField] private UIManager _uIManager;
+    [SerializeField] private UIManagerAdvanced _uIManager;
 
     public override void InstallBindings()
     {
@@ -19,6 +19,6 @@ public class UIManagerInstaller : MonoInstaller
         Container.Bind<LobbyScreenProxyView>().AsSingle();
         Container.Bind<ILobbyScreenPresenter>().To<LobbyScreenPresenter>().AsSingle();        
 
-        Container.Bind<UIManager>().FromInstance(_uIManager).AsSingle();
+        Container.Bind<IUIManager>().FromInstance(_uIManager).AsSingle();
     }
 }

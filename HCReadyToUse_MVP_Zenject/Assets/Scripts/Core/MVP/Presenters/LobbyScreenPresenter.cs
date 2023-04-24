@@ -10,7 +10,7 @@ namespace Core.MVP
     {
     }
 
-    class LobbyScreenPresenter : ILobbyScreenPresenter
+    public class LobbyScreenPresenter : ILobbyScreenPresenter
     {
         public LobbyScreenModel Model { get; }
         public LobbyScreenProxyView ProxyView { get; }
@@ -23,7 +23,7 @@ namespace Core.MVP
             ProxyView = proxyView;
         }
 
-        private void OnStartButtonClickHandler()
+        public void OnStartButtonClickHandler()
         {
             UseCases.OnStartButtonClick();   
         }
@@ -50,7 +50,7 @@ namespace Core.MVP
             if (!ProxyView.IsPrepared)
             {
                 ProxyView.Prepare();
-                InitializeButtonCallbacks();
+                ProxyView.View.InitPresenter(this);
                 SubscribeDataChange();
             }
         }
@@ -63,11 +63,6 @@ namespace Core.MVP
             }
             ProxyView.View.Show();
             RefreshData();
-        }
-
-        private void InitializeButtonCallbacks()
-        {
-            ProxyView.View.InitStartButtonCallback(OnStartButtonClickHandler);
         }
 
         private void RefreshData()

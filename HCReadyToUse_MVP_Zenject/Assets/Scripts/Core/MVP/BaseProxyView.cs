@@ -4,9 +4,9 @@ namespace Core.MVP
 {
     public abstract class BaseProxyView<TView> : IProxyView<TView> where TView : IView
     {
-        protected readonly UIManager _uIManager;
+        protected readonly IUIManager _uIManager;
 
-        public BaseProxyView(UIManager uIManager)
+        public BaseProxyView(IUIManager uIManager)
         {
             _uIManager = uIManager;
         }

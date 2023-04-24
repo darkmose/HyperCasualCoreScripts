@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Core.UI;
 
 namespace Core.MVP
 {
@@ -6,27 +7,33 @@ namespace Core.MVP
     {
         Window,
         Screen,
-        Popup
+        Popup,
+        Panel
     }
 
-    public abstract class BaseView : MonoBehaviour, IView
+    public abstract class BaseView : MonoBehaviour, IView, IViewLinkWithGameObject
     {
         [SerializeField] private bool _hideOnAwake;
-        public bool IsActive { get; protected set; }
+        public bool IsOpen { get; protected set; }
+
         public abstract ViewType View { get; }
+
+        public GameObject Link => gameObject;
 
         public void Show()
         {
+            IsOpen = true;
             gameObject.SetActive(true);
             OnShow();
         }
 
         public void Hide()
         {
+            IsOpen = false;
             gameObject.SetActive(false);
             OnHide();
         }
-        public virtual void Destroy() { }
+
         protected virtual void OnAwake() { }
         protected virtual void OnStart() { }
 
@@ -35,8 +42,6 @@ namespace Core.MVP
         protected virtual void OnHide() { }
 
         protected virtual void OnDestroyInner() { }
-
-        public virtual void Init() { }
 
         private void Awake()
         {
@@ -57,5 +62,13 @@ namespace Core.MVP
             OnDestroyInner();
         }
 
+        public virtual void Init()
+        {
+        }
+
+        public void Destroy()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

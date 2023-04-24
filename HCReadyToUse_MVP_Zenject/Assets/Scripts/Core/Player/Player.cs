@@ -70,6 +70,7 @@ namespace Core.PlayerModule
 
         public Dictionary<string, object> CollectData()
         {
+            _saveDataDictionary.Clear();
             foreach (var storagable in _storagablesDictionaries)
             {
                 storagable.Save(_saveDataDictionary);

@@ -31,15 +31,12 @@ namespace Core.States
         {
             _gameScreen.Init();
             _gameScreen.Show();
-
-            _playerData.PlayerMovementSystem.CanMove = true;
             _cameraFollow.ChangeOffset(_gameCameraPoint);
         }
 
         public override void Exit()
         {
             _gameScreen.Hide();
-            _playerData.PlayerMovementSystem.CanMove = false;
         }
 
     }

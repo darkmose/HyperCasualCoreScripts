@@ -4,13 +4,13 @@ namespace Core.MVP
 {
     public class LobbyScreenProxyView : BaseProxyView<LobbyScreenView>
     {
-        public LobbyScreenProxyView(UIManager uIManager) : base(uIManager)
+        public LobbyScreenProxyView(IUIManager uIManager) : base(uIManager)
         {
         }
 
         public override void Prepare()
         {
-            View = _uIManager.GetView<LobbyScreenView>();
+            View = _uIManager.GetScreen<LobbyScreenView>(ScreenType.Lobby);
         }
     }
 }

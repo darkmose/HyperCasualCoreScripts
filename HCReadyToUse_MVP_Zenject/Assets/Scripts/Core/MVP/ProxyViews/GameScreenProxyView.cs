@@ -9,13 +9,13 @@ namespace Core.MVP
 
     public class GameScreenProxyView : BaseProxyView<GameScreenView>
     {
-        public GameScreenProxyView(UIManager uIManager) : base(uIManager)
+        public GameScreenProxyView(IUIManager uIManager) : base(uIManager)
         {
         }
 
         public override void Prepare()
         {
-            View = _uIManager.GetView<GameScreenView>();
+            View = _uIManager.GetScreen<GameScreenView>(ScreenType.Game);
         }
     }
 }

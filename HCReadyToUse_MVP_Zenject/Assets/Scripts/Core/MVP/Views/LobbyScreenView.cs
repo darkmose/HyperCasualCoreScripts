@@ -10,19 +10,10 @@ namespace Core.MVP
         public override ScreenType Type => ScreenType.Game;
         [SerializeField] private Button _startButton;
         [SerializeField] private LevelProgressBarView _levelProgressBarView;
-
-        private System.Action _startButtonCallback;
-        private DiContainer _diContainer;
-
-        [Inject]
-        private void Constructor(DiContainer diContainer)
+        
+        public void InitPresenter(LobbyScreenPresenter presenter)
         {
-            _diContainer = diContainer;
-        }
-
-        public void InitStartButtonCallback(System.Action action)
-        {
-            _startButtonCallback = action;
+            _startButton.onClick.AddListener(presenter.OnStartButtonClickHandler);
         }
 
         public void SetCurrentLevel(int level)
@@ -32,9 +23,6 @@ namespace Core.MVP
 
         protected override void OnAwake()
         {
-            var uiManager = _diContainer.Resolve<UIManager>();
-            uiManager.RegisterView(this);
-            _startButton.onClick.AddListener(() => _startButtonCallback?.Invoke());
             base.OnAwake();
         }
 

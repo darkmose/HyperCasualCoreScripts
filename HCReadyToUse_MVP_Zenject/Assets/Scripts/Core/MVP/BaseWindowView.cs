@@ -2,7 +2,7 @@
 {
     public enum WindowType
     {
-        Reward
+        AssemblingComplete
     }
 
     public abstract class BaseWindowView : BaseView
